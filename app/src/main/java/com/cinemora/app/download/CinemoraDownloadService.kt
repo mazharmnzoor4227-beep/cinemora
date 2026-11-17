@@ -1,7 +1,6 @@
 package com.cinemora.app.download
 
 import android.app.Notification
-import android.content.Context
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import androidx.media3.exoplayer.offline.DownloadManager
@@ -9,6 +8,7 @@ import androidx.media3.exoplayer.offline.DownloadNotificationHelper
 import androidx.media3.exoplayer.offline.DownloadService
 import androidx.media3.exoplayer.scheduler.PlatformScheduler
 import androidx.media3.exoplayer.scheduler.Scheduler
+import com.cinemora.app.R
 
 /** Media3 offline download service: downloads episodes (MP4 + HLS) for offline play. */
 @UnstableApi
@@ -25,18 +25,10 @@ class CinemoraDownloadService : DownloadService(
         private const val DOWNLOAD_NOTIFICATION_CHANNEL_ID = "cinemora_downloads"
     }
 
-    private lateinit var downloadManager: DownloadManager
     private lateinit var notificationHelper: DownloadNotificationHelper
 
-    override fun getDownloadManager(): DownloadManager {
-        if (!::downloadManager.isInitialized) {
-            downloadManager = DownloadManager(
-                this,
-                DownloadCache.get(this),
-            )
-        }
-        return downloadManager
-    }
+    override fun getDownloadManager(): DownloadManager =
+        DownloadCache.getDownloadManager(this)
 
     override fun getScheduler(): Scheduler? = PlatformScheduler(this, JOB_ID)
 

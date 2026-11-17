@@ -84,17 +84,20 @@ fun DetailsScreen(
         detailsViewModel.load(movie.providerId, movie.contentId)
         selectedSeason = 0
     }
+
+    // Derived before use: the episodes LaunchedEffect below reads this list,
+    // and Kotlin locals may not be referenced before their declaration.
+    val seasons = details?.seasons ?: emptyList()
+    val currentSeason = seasons.getOrNull(selectedSeason) ?: seasons.firstOrNull()
+    val episodes = currentSeason?.episodes ?: emptyList()
+    val firstEpisode = seasons.firstOrNull()?.episodes?.firstOrNull()
+
     LaunchedEffect(episodes) {
         episodes.forEach { ep ->
             val s = DownloadHelper.stateOf(context, DownloadHelper.downloadId(movie, ep))
             if (s != null) downloadStates[ep.id] = s
         }
     }
-
-    val seasons = details?.seasons ?: emptyList()
-    val currentSeason = seasons.getOrNull(selectedSeason) ?: seasons.firstOrNull()
-    val episodes = currentSeason?.episodes ?: emptyList()
-    val firstEpisode = seasons.firstOrNull()?.episodes?.firstOrNull()
 
     Column(Modifier.fillMaxSize().background(Night).verticalScroll(rememberScrollState())) {
         Row(

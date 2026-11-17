@@ -6,7 +6,7 @@ import android.media.AudioManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.detectVerticalDragGesture
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -188,7 +188,7 @@ fun PlayerScreen(
                         detectTapGestures(onTap = { controlsVisible = !controlsVisible })
                     }
                     .pointerInput(Unit) {
-                        detectVerticalDragGesture(
+                        detectVerticalDragGestures(
                             onDragStart = { offset ->
                                 dragIsLeft = offset.x < widthPx / 2f
                                 val activity = context as? Activity

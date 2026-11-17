@@ -60,7 +60,7 @@ object DownloadHelper {
     /** Current downloads from the offline index. */
     fun list(context: Context): List<DownloadItem> {
         val manager = try {
-            DownloadService.getDownloadManager(context, CinemoraDownloadService::class.java)
+            DownloadCache.getDownloadManager(context)
         } catch (_: Exception) {
             return emptyList()
         }
@@ -89,7 +89,7 @@ object DownloadHelper {
 
     fun stateOf(context: Context, downloadId: String): Int? {
         val manager = try {
-            DownloadService.getDownloadManager(context, CinemoraDownloadService::class.java)
+            DownloadCache.getDownloadManager(context)
         } catch (_: Exception) {
             return null
         }
